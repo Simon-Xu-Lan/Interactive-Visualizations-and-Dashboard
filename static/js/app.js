@@ -55,8 +55,12 @@ function buildBarChart(selectedSample) {
     // yaxis: { title: 'OTU ID' },
     // xaxis: { title: 'Sample Value' },
     showlegend: false,
-    height: 500,
+    height: 400,
     width: 300,
+    margin: {
+      t: 0,
+      b: 0,
+    },
   };
 
   Plotly.newPlot('bar', data, layout);
