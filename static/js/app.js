@@ -217,12 +217,12 @@ function pathTriangle(xD, yD, h, rotation) {
   let lengthDF = h * Math.cos(degreeADF);
   //
 
-  let xA = rotation <= 90 ? xD - lengthDF : xD + lengthDF;
+  let xA = rotation <= Math.PI / 2 ? xD - lengthDF : xD + lengthDF;
   let yA = yD - lengthAF;
   let xB = xD - lengthDE;
-  let yB = rotation <= 90 ? yD + lengthCE : yD - lengthCE;
+  let yB = rotation <= Math.PI / 2 ? yD + lengthCE : yD - lengthCE;
   let xC = xD + lengthDE;
-  let yC = rotation <= 90 ? yD - lengthCE : yD + lengthCE;
+  let yC = rotation <= Math.PI / 2 ? yD - lengthCE : yD + lengthCE;
 
   let path = `M ${xB} ${yB} L${xA} ${yA} L${xC} ${yC} Z`;
 
