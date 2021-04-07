@@ -81,3 +81,11 @@ let path = `M ${xB} ${yB} L${xA} ${yA} L${xC} ${yC} Z`;
 ```
 
 <image src="images/triangle.png" alt="page.png" width="1000">
+
+# Update
+
+- Put the samples data online. Use flask to build an API.
+- Update the code to retreive data by API call.
+  - API url: https://belly-biodiversity-samples.herokuapp.com/api/samples
+- Backend code:
+  - https://github.com/Simon-Xu-Lan/Flask-API

@@ -29,15 +29,18 @@ function init_page() {
 }
 
 function optionChanged(value) {
-  d3.json('data/samples.json').then((data) => {
-    var metadata = data.metadata.filter((row) => row.id === parseInt(value));
-    var selectedSample = data.samples.filter((row) => row.id === value);
-    var wfreq = metadata[0].wfreq;
-    buildDemoInfo(metadata[0]);
-    buildBarChart(selectedSample);
-    buildBubbleChart(selectedSample);
-    buildGaugeChart(wfreq);
-  });
+  // d3.json('data/samples.json').then((data) => {
+  d3.json('https://belly-biodiversity-samples.herokuapp.com/api/samples').then(
+    (data) => {
+      var metadata = data.metadata.filter((row) => row.id === parseInt(value));
+      var selectedSample = data.samples.filter((row) => row.id === value);
+      var wfreq = metadata[0].wfreq;
+      buildDemoInfo(metadata[0]);
+      buildBarChart(selectedSample);
+      buildBubbleChart(selectedSample);
+      buildGaugeChart(wfreq);
+    }
+  );
 }
 
 function buildBarChart(selectedSample) {
