@@ -2,9 +2,9 @@
 // window.on('change', init_page);
 // document.addEventListener('DOMContentLoaded', init_page);
 
-init_page();
-// d3.select('#selDataset').node().value = '940';
-function init_page() {
+update_page();
+d3.select(window).on('resize', update_page);
+function update_page() {
   d3.json('https://belly-biodiversity-samples.herokuapp.com/api/samples').then(
     (data) => {
       // d3.json('data/samples.json').then((data) => {
@@ -12,13 +12,11 @@ function init_page() {
       data.names.forEach((name) => {
         selectEl.append('option').attr('value', name).text(name);
       });
-
+      id = d3.select('#selDataset').node().value;
       // Get initial value
-      var init_id = data.names[0];
-      var metadata = data.metadata.filter(
-        (row) => row.id === parseInt(init_id)
-      );
-      var selectedSample = data.samples.filter((row) => row.id === init_id);
+      // var init_id = data.names[0];
+      var metadata = data.metadata.filter((row) => row.id === parseInt(id));
+      var selectedSample = data.samples.filter((row) => row.id === id);
       var wfreq = metadata[0].wfreq;
       buildDemoInfo(metadata[0]);
       buildBarChart(selectedSample);
@@ -87,11 +85,10 @@ function buildBubbleChart(selectedSample) {
       : selectedSample[0].sample_values;
   var xLabel = screen.width <= 768 ? 'Sample Value' : 'OTU ID';
   var ylabel = screen.width <= 768 ? 'OTU ID' : 'Sample Value';
+  var chartHeight = screen.width <= 768 ? 850 : 500;
 
   var trace = {
     type: 'bubble',
-    // x: selectedSample[0].otu_ids,
-    // y: selectedSample[0].sample_values,
     x: xValues,
     y: yValues,
     mode: 'markers',
@@ -106,17 +103,12 @@ function buildBubbleChart(selectedSample) {
   var data = [trace];
 
   var layout = {
-    // title: `Samples ID ${selectedSample[0].id}`,
-    // xaxis: { title: 'OTU ID' },
-    // yaxis: { title: 'Sample Value' },
     xaxis: { title: xLabel },
     yaxis: { title: ylabel },
     showlegend: false,
     showlegend: false,
-    // height: 600,
+    height: chartHeight,
     width: screen.width * 0.9,
-    // width: screen.width <= 768 ? 768 : 1200,
-    // width: 1200,
   };
 
   var config = { responsive: true };

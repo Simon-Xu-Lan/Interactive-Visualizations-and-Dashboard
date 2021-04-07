@@ -84,8 +84,25 @@ let path = `M ${xB} ${yB} L${xA} ${yA} L${xC} ${yC} Z`;
 
 # Update
 
+## Add backend server to provide data
+
 - Put the samples data online. Use flask to build an API.
 - Update the code to retreive data by API call.
   - API url: https://belly-biodiversity-samples.herokuapp.com/api/samples
 - Backend code:
   - https://github.com/Simon-Xu-Lan/Flask-API
+
+## Make the bubble chart to be screen responsive
+
+- Set bubble chart width as screen.width
+- Exchange x, y when screen.width is less than and equal to 768px.
+- Add event listener on the screen size change
+  - d3.select(window).on("resize", updatePage)
+
+### Bubble Chart at large screen
+
+<image src="images/bubble_lg.png" alt="page.png" width="1000">
+
+### Bubble chart at small screen
+
+<image src="images/bubble_sx.png" alt="page.png" width="500" text-align: center>
