@@ -87,7 +87,7 @@ function buildBubbleChart(selectedSample) {
   var xLabel = screen.width <= 768 ? 'Sample Value' : 'OTU ID';
   var ylabel = screen.width <= 768 ? 'OTU ID' : 'Sample Value';
   var chartHeight =
-    screen.width <= 768 ? containerWidth * 2 : containerWidth / 2;
+    screen.width <= 768 ? containerWidth / 0.66 : containerWidth * 0.66;
 
   var trace = {
     type: 'bubble',
