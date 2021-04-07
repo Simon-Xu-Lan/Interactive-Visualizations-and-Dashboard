@@ -94,7 +94,8 @@ let path = `M ${xB} ${yB} L${xA} ${yA} L${xC} ${yC} Z`;
 
 ## Make the bubble chart to be screen responsive
 
-- Set bubble chart width as screen.width
+- Set bubble chart width as "container" element clientWidth, so the bubble chart would stay inside container.
+  - The bubble chart would be wider than container if set chart width as screen.width
 - Exchange x, y when screen.width is less than and equal to 768px.
 - Add event listener on the screen size change
   - d3.select(window).on("resize", updatePage)

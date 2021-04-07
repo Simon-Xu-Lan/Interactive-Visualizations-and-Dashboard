@@ -75,6 +75,7 @@ function buildBarChart(selectedSample) {
 }
 
 function buildBubbleChart(selectedSample) {
+  var containerWidth = document.getElementById('container').clientWidth;
   var xValues =
     screen.width <= 768
       ? selectedSample[0].sample_values
@@ -85,7 +86,8 @@ function buildBubbleChart(selectedSample) {
       : selectedSample[0].sample_values;
   var xLabel = screen.width <= 768 ? 'Sample Value' : 'OTU ID';
   var ylabel = screen.width <= 768 ? 'OTU ID' : 'Sample Value';
-  var chartHeight = screen.width <= 768 ? 850 : 500;
+  var chartHeight =
+    screen.width <= 768 ? containerWidth * 2 : containerWidth / 2;
 
   var trace = {
     type: 'bubble',
@@ -108,7 +110,7 @@ function buildBubbleChart(selectedSample) {
     showlegend: false,
     showlegend: false,
     height: chartHeight,
-    width: screen.width * 0.9,
+    width: containerWidth,
   };
 
   var config = { responsive: true };
