@@ -5,22 +5,27 @@
 init_page();
 // d3.select('#selDataset').node().value = '940';
 function init_page() {
-  d3.json('data/samples.json').then((data) => {
-    var selectEl = d3.select('#selDataset');
-    data.names.forEach((name) => {
-      selectEl.append('option').attr('value', name).text(name);
-    });
+  d3.json('https://belly-biodiversity-samples.herokuapp.com/api/samples').then(
+    (data) => {
+      // d3.json('data/samples.json').then((data) => {
+      var selectEl = d3.select('#selDataset');
+      data.names.forEach((name) => {
+        selectEl.append('option').attr('value', name).text(name);
+      });
 
-    // Get initial value
-    var init_id = data.names[0];
-    var metadata = data.metadata.filter((row) => row.id === parseInt(init_id));
-    var selectedSample = data.samples.filter((row) => row.id === init_id);
-    var wfreq = metadata[0].wfreq;
-    buildDemoInfo(metadata[0]);
-    buildBarChart(selectedSample);
-    buildBubbleChart(selectedSample);
-    buildGaugeChart(wfreq);
-  });
+      // Get initial value
+      var init_id = data.names[0];
+      var metadata = data.metadata.filter(
+        (row) => row.id === parseInt(init_id)
+      );
+      var selectedSample = data.samples.filter((row) => row.id === init_id);
+      var wfreq = metadata[0].wfreq;
+      buildDemoInfo(metadata[0]);
+      buildBarChart(selectedSample);
+      buildBubbleChart(selectedSample);
+      buildGaugeChart(wfreq);
+    }
+  );
 }
 
 function optionChanged(value) {
@@ -63,14 +68,29 @@ function buildBarChart(selectedSample) {
     },
   };
 
-  Plotly.newPlot('bar', data, layout);
+  var config = { responsive: true };
+
+  Plotly.newPlot('bar', data, layout, config);
 }
 
 function buildBubbleChart(selectedSample) {
+  var xValues =
+    screen.width <= 768
+      ? selectedSample[0].sample_values
+      : selectedSample[0].otu_ids;
+  var yValues =
+    screen.width <= 768
+      ? selectedSample[0].otu_ids
+      : selectedSample[0].sample_values;
+  var xLabel = screen.width <= 768 ? 'Sample Value' : 'OTU ID';
+  var ylabel = screen.width <= 768 ? 'OTU ID' : 'Sample Value';
+
   var trace = {
     type: 'bubble',
-    x: selectedSample[0].otu_ids,
-    y: selectedSample[0].sample_values,
+    // x: selectedSample[0].otu_ids,
+    // y: selectedSample[0].sample_values,
+    x: xValues,
+    y: yValues,
     mode: 'markers',
     marker: {
       size: selectedSample[0].sample_values,
@@ -84,14 +104,21 @@ function buildBubbleChart(selectedSample) {
 
   var layout = {
     // title: `Samples ID ${selectedSample[0].id}`,
-    xaxis: { title: 'OTU ID' },
-    yaxis: { title: 'Sample Value' },
+    // xaxis: { title: 'OTU ID' },
+    // yaxis: { title: 'Sample Value' },
+    xaxis: { title: xLabel },
+    yaxis: { title: ylabel },
     showlegend: false,
-    height: 600,
-    width: 1200,
+    showlegend: false,
+    // height: 600,
+    width: screen.width * 0.9,
+    // width: screen.width <= 768 ? 768 : 1200,
+    // width: 1200,
   };
 
-  Plotly.newPlot('bubble', data, layout);
+  var config = { responsive: true };
+
+  Plotly.newPlot('bubble', data, layout, config);
 }
 
 function buildIndicatorChart(wfreq) {
@@ -190,8 +217,9 @@ function buildGaugeChart(wfreq) {
     },
   };
   let data = [trace];
+  var config = { responsive: true };
 
-  Plotly.newPlot('gauge', data, gaugeLayout);
+  Plotly.newPlot('gauge', data, gaugeLayout, config);
 }
 
 // triangle
